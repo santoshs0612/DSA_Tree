@@ -1,0 +1,88 @@
+Given a Binary Tree. Find the Zig-Zag Level Order Traversal of the Binary Tree.
+
+ 
+
+Example 1:
+
+Input:
+        1
+      /   \
+     2     3
+    / \   /  \
+   4   5 6    7
+Output:
+1 3 2 4 5 6 7
+Example 2:
+
+Input:
+           7
+        /     \
+       9       7
+     /  \     /   
+    8    8   6     
+   /  \
+  10   9 
+Output:
+7 7 9 8 8 6 9 10 
+
+
+
+
+
+
+//User function Template for C++
+/*Structure of the node of the binary tree is as
+struct Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+*/
+
+class Solution{
+    public:
+    //Function to store the zig zag order traversal of tree in a list.
+    vector <int> zigZagTraversal(Node* root)
+    {
+    	// Code here
+    	
+    	vector<int> ans;
+    	// queue for same as level order traversal 
+    	queue<Node*> q;
+    	q.push(root);
+    	bool flag=1;
+    	while(!q.empty())
+    	{
+    	    
+    	    int size = q.size();
+    	    int vec_size= ans.size();
+    	    // Taking out the size element from queue(i.e for one level) 
+    	    for(int i =0;i<size;i++)
+    	    {
+    	        Node* curr= q.front();
+    	        q.pop();
+    	        ans.push_back(curr->data);
+    	        if(curr->left)
+    	        {
+    	            q.push(curr->left);
+    	        }
+    	        if(curr->right)
+    	        {
+    	            q.push(curr->right);
+    	        }
+    	    }
+    	    // if flag is flase the reverse the ans of that level 
+    	    if(!flag)
+    	    {
+    	        reverse(ans.begin()+vec_size, ans.end());
+    	    }
+    	    flag=!flag;
+    	}
+    	return ans;
+    }
+};
