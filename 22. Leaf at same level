@@ -1,0 +1,73 @@
+Given a Binary Tree, check if all leaves are at same level or not.
+
+Example 1:
+
+Input: 
+            1
+          /   \
+         2     3
+
+Output: 1
+
+Explanation: 
+Leaves 2 and 3 are at same level.
+
+Example 2:
+
+Input:
+            10
+          /    \
+        20      30
+       /  \        
+     10    15
+
+Output: 0
+
+Explanation:
+Leaves 10, 15 and 30 are not at same level.
+
+
+/* The structure of the binary tree is as follows
+struct Node
+{
+    int data;
+    Node* left;
+    Node* right;
+};
+*/
+
+class Solution{
+  public:
+  
+    bool solverLeafCheck(Node* root, int lable,int &refLable)
+    {
+        if(root==NULL)
+        {
+            return true;
+        }
+        
+        if(root->left==NULL && root->right==NULL)
+        {
+            if(refLable==0)
+            {
+                refLable=lable;
+                return true;
+            }
+            
+            return (refLable==lable);
+            
+        }
+        
+        return solverLeafCheck(root->left,lable+1,refLable) && 
+                solverLeafCheck(root->right,lable+1,refLable);
+    }
+    /*You are required to complete this method*/
+    bool check(Node *root)
+    {
+        //Your code here
+        int label=0;
+        int refLabel=0;
+        
+        return solverLeafCheck(root,label,refLabel);
+    }
+};
