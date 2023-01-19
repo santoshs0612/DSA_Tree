@@ -1,0 +1,88 @@
+Given a binary tree, find out whether it contains a duplicate sub-tree of size two or more, or not.
+
+
+Example 1 :
+
+Input : 
+               1
+             /   \ 
+           2       3
+         /   \       \    
+        4     5       2     
+                     /  \    
+                    4    5
+Output : 1
+Explanation : 
+    2     
+  /   \    
+ 4     5
+is the duplicate sub-tree.
+Example 2 :
+
+Input : 
+               1
+             /   \ 
+           2       3
+Output: 0
+Explanation: There is no duplicate sub-tree 
+in the given binary tree.
+
+
+/*The structure of the Binary Tree Node  is
+struct Node
+{
+  char data;
+  struct Node* left;
+  struct Node* right;
+};*/
+
+class Solution {
+  public:
+  
+    unordered_set<string> mp;
+    string solverDupSub(Node* root)
+    {
+        string s="";
+        if(root==NULL)
+        {
+            return s+'#';
+        }
+        
+        string lstr= solverDupSub(root->left);
+        if(lstr.compare(s)==0)
+        {
+            return s;
+        }
+        
+        string rstr= solverDupSub(root->right);
+        if(rstr.compare(s)==0)
+        {
+            return s;
+        }
+        s=s+root->data+lstr+rstr;
+        
+        
+        if(s.length()>3 && mp.find(s)!=mp.end())
+        {
+            return "";
+        }
+        mp.insert(s);
+        return s;
+    }
+    /*This function returns true if the tree contains 
+    a duplicate subtree of size 2 or more else returns false*/
+    int dupSub(Node *root) {
+         // code here
+         
+         string s = solverDupSub(root);
+         
+         if(s.compare("")==0)
+         {
+             return 1;
+         }
+         else 
+         {
+             return 0;
+         }
+    }
+};
