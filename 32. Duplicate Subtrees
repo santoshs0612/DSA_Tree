@@ -1,0 +1,66 @@
+Given a binary tree of size N, your task is to that find all duplicate subtrees from the given binary tree.
+
+Note: Here's the Output of every Node printed in the Pre-Order tree traversal format. Arrange nodes in the answer array based on the lexicographically incresing order of their preorder traversal of subtree.
+For Example: if we have 3 preorder traversal as {1,2,3},{1},{11,2,3} than your lexicographically increasing order is {1},{1,2,3},{11,2,3}, you are supposed to output the head of all these subtrees in the same order.
+
+Example:
+
+Input : 
+
+Output : 2 4
+         4
+Explanation: Above Trees are two 
+duplicate subtrees.i.e  and 
+Therefore,you need to return above trees 
+root in the form of a list.
+
+
+//function Template for C++
+
+/*
+Structure of the node of the binary tree is as
+struct Node {
+	int data;
+	struct Node* left, *right;
+};
+*/
+// you are required to complete this function
+// the function and return an vector of Node
+// which contains all the duplicate sub-tree
+
+string solverAllDups(Node* root, vector<Node*> &ans, unordered_map<string,int> &mp)
+{
+    if(root==NULL)
+    {
+        return "";
+    }
+    
+    string str="(";
+    str+=solverAllDups(root->left,ans,mp);
+    str+=to_string(root->data);
+    str+=solverAllDups(root->right,ans,mp);
+    str+=")";
+    
+    if(mp[str]==1)
+    {
+        ans.push_back(root);
+    }
+    
+    mp[str]++;
+    
+    return str;
+    
+}
+vector<Node*> printAllDups(Node* root)
+{
+    // Code here
+    
+    vector<Node*> ans;
+    
+    unordered_map<string,int> mp;
+    
+    solverAllDups(root,ans,mp);
+    
+    return ans;
+    
+}
